@@ -13,7 +13,7 @@ public class Employee {
 
     @NotBlank(message = "{name.first.error}")
     private String firstName;
-    @NotBlank(message = "{name.first.error}")
+    @NotBlank(message = "{name.last.error}")
     private String lastName;
     @Email(message = "{email.error}")
     private String email;
