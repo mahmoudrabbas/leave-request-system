@@ -1,32 +1,50 @@
 package com.empSystem.entities;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Entity
+@Table(name = "employee")
 public class Employee {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @UuidGenerator
     private UUID id;
 
     @NotBlank(message = "{name.first.error}")
+    @Column(name = "first_name", nullable = false, length = 100)
     private String firstName;
     @NotBlank(message = "{name.last.error}")
+    @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
     @Email(message = "{email.error}")
+    @Column(name = "email", unique = true, nullable = false, length = 100)
     private String email;
     @Pattern(regexp = "^01[0125][0-9]{8}$", message = "{phone.number.error}")
+    @Column(name = "phone_number", nullable = false, unique = true, length = 100)
     private String phoneNumber;
     @PastOrPresent(message = "{hire.date.error}")
+    @Column(name = "hire_date", nullable = false)
     private LocalDate hireDate;
     @NotBlank(message = "{position.error}")
+    @Column(name = "position", nullable = false, length = 100)
     private String position;
 
-    private UUID departmentId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "department_id")
+    private Department department;
 
-    public Employee(UUID id, String firstName, String lastName, String email, String phoneNumber, LocalDate hireDate, String position, UUID departmentId) {
+    public Employee() {
+    }
+
+    public Employee(UUID id, String firstName, String lastName, String email, String phoneNumber, LocalDate hireDate, String position, Department department) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -34,7 +52,7 @@ public class Employee {
         this.phoneNumber = phoneNumber;
         this.hireDate = hireDate;
         this.position = position;
-        this.departmentId = departmentId;
+        this.department = department;
     }
 
 
@@ -94,11 +112,11 @@ public class Employee {
         this.position = position;
     }
 
-    public UUID getDepartmentId() {
-        return departmentId;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setDepartmentId(UUID departmentId) {
-        this.departmentId = departmentId;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }
