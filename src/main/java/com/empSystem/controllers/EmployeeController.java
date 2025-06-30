@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -22,7 +21,8 @@ public class EmployeeController {
 
     @GetMapping
     public ResponseEntity<?> employees() {
-        var resp = new GlobalResponse<List<Employee>>(employeeService.getAll(), HttpStatus.OK);
+        var resp = new GlobalResponse<>(employeeService.getAll(), HttpStatus.OK);
+
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 

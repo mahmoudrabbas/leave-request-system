@@ -1,6 +1,9 @@
 package com.empSystem.shared;
 
+import com.empSystem.exceptions.AlreadyExistsException;
+import com.empSystem.exceptions.BadCredentialsException;
 import com.empSystem.exceptions.NotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
@@ -39,6 +42,22 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<?> handleAlreadyExists(AlreadyExistsException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("message", ex.getMessage());
+        var response = new GlobalResponse<>(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<?> handleBadCredentials(BadCredentialsException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("message", ex.getMessage());
+        var response = new GlobalResponse<>(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> handleNotFound(NotFoundException ex) {
@@ -46,6 +65,14 @@ public class GlobalExceptionHandler {
         error.put("message", ex.getLocalizedMessage());
         var response = new GlobalResponse<>(error, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<?> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("message", ex.getLocalizedMessage());
+        var response = new GlobalResponse<>(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -57,4 +84,6 @@ public class GlobalExceptionHandler {
         var response = new GlobalResponse<>(errors, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
+
+
 }
