@@ -3,12 +3,19 @@ package com.empSystem.services;
 import com.empSystem.abstracts.AuthService;
 import com.empSystem.abstracts.EmployeeService;
 import com.empSystem.dtos.AuthResponse;
+import com.empSystem.dtos.LoginRequest;
 import com.empSystem.dtos.SignupRequest;
 import com.empSystem.entities.Employee;
 import com.empSystem.entities.UserAccount;
+import com.empSystem.enums.Role;
 import com.empSystem.exceptions.AlreadyExistsException;
+import com.empSystem.jwt.JwtUtils;
 import com.empSystem.repository.UserAccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +30,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
 
     @Override
@@ -39,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
         userAccount.setUsername(request.username());
         userAccount.setPassword(passwordEncoder.encode(request.password()));
         userAccount.setEmployee(employee);
-
+        userAccount.setRole(Role.ADMIN);
         userAccountRepo.save(userAccount);
 
         AuthResponse authResponse = new AuthResponse();
@@ -50,8 +63,14 @@ public class AuthServiceImpl implements AuthService {
         return authResponse;
     }
 
-//    @Override
-//    public AuthResponse login(LoginRequest request) {
-//        return null;
-//    }
+    @Override
+    public String login(LoginRequest request) {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                request.username(),
+                request.password()
+        );
+        var authenticated = authenticationManager.authenticate(authentication);
+
+        return jwtUtils.generateToken((UserDetails) authenticated.getPrincipal());
+    }
 }

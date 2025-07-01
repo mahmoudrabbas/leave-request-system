@@ -27,7 +27,7 @@ public class UserAccount {
     private Employee employee;
 
     @Column(name = "role", nullable = false)
-    private Role role = Role.USER;
+    private Role role;
 
     public UserAccount() {
     }

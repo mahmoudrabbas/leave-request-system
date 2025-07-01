@@ -1,0 +1,34 @@
+================ Department ========================
+GET     => localhost:8080/departments       => ADMIN
+GET     => localhost:8080/departments/{id}  => ADMIN
+POST    => localhost:8080/departments       => ADMIN
+PUT     => localhost:8080/departments       => ADMIN
+DELETE  => localhost:8080/departments       => ADMIN
+
+
+================ Employees ===============================
+GET     => localhost:8080/employees         => ADMIN
+GET     => localhost:8080/employees/{id}    => ADMIN, USER
+POST    => localhost:8080/employees         => ADMIN, USER
+PUT     => localhost:8080/employees         => ADMIN, USER
+DELETE  => localhost:8080/employees         => ADMIN, USER
+
+
+
+=====================Auth========================
+POST    => localhost:8080/auth/register => public
+POST    => localhost:8080/auth/login    => public
+
+
+================ Users ===============================
+GET     => localhost:8080/users         => ADMIN
+GET     => localhost:8080/users/{id}    => ADMIN, USER
+DELETE  => localhost:8080/users         => ADMIN, USER
+
+
+=====================Leave Request====================
+GET     => localhost:8080/leave-request         => ADMIN
+GET     => localhost:8080/leave-request/{id}    => ADMIN, USER
+POST    => localhost:8080/leave-request         => ADMIN, USER
+PUT     => localhost:8080/leave-request         => ADMIN (change the request status if accepted or rejected)
+DELETE  => localhost:8080/leave-request         => ADMIN, USER

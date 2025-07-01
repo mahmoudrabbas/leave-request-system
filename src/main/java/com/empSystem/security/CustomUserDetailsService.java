@@ -1,7 +1,6 @@
 package com.empSystem.security;
 
 import com.empSystem.abstracts.UserAccountService;
-import com.empSystem.entities.UserAccount;
 import com.empSystem.exceptions.BadCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -17,11 +16,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserAccount userAccount = userAccountService.findUserAccountByUsername(username).orElseThrow(() -> new BadCredentialsException("Bad Credentials"));
-        return User.builder()
-                .username(userAccount.getUsername())
-                .password(userAccount.getPassword())
-                .roles(userAccount.getRole().toString())
-                .build();
+        return userAccountService.findUserAccountByUsername(username)
+                .map(userAccount -> User.builder()
+                        .username(userAccount.getUsername())
+                        .password(userAccount.getPassword())
+                        .roles(userAccount.getRole().toString())
+                        .build())
+                .orElseThrow(() -> new BadCredentialsException("Bad Credentials"));
     }
 }

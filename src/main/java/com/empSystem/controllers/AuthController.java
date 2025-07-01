@@ -2,6 +2,7 @@ package com.empSystem.controllers;
 
 import com.empSystem.abstracts.AuthService;
 import com.empSystem.dtos.AuthResponse;
+import com.empSystem.dtos.LoginRequest;
 import com.empSystem.dtos.SignupRequest;
 import com.empSystem.shared.GlobalResponse;
 import jakarta.validation.Valid;
@@ -19,14 +20,15 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-//    @GetMapping
-//    public ResponseEntity<?> sayHi() {
-//        return ResponseEntity.ok().body(new GlobalResponse<>("Hi", HttpStatus.CREATED));
-//    }
-
     @PostMapping("/register")
     public ResponseEntity<?> signup(@RequestBody @Valid SignupRequest request) {
         AuthResponse authResponse = authService.register(request);
+        return new ResponseEntity<>(new GlobalResponse<>(authResponse, HttpStatus.CREATED), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequest request) {
+        String authResponse = authService.login(request);
         return new ResponseEntity<>(new GlobalResponse<>(authResponse, HttpStatus.CREATED), HttpStatus.CREATED);
     }
 }

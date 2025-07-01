@@ -8,9 +8,11 @@ import com.empSystem.entities.Department;
 import com.empSystem.entities.Employee;
 import com.empSystem.exceptions.NotFoundException;
 import com.empSystem.repository.EmployeeRepo;
+import com.empSystem.security.SecurityUtils;
 import com.empSystem.utils.LocaleMessage;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,16 +30,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepo employeeRepo;
     @Autowired
     private LocaleMessage localeMessage;
-
     @Autowired
     private DepartmentService departmentService;
+    @Autowired
+    private SecurityUtils securityUtils;
 
     @Override
     public List<Employee> getAll() {
         return employeeRepo.findAll();
     }
 
-    @Override
+    @PreAuthorize("@securityUtils.isOwner(#id) or hasRole('ADMIN')")
     public Employee getEmployeeById(UUID id) {
         return employeeRepo.findById(id).orElseThrow(() -> new NotFoundException(localeMessage.getMessage("emp.not.found", id.toString())));
     }
