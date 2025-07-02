@@ -1,6 +1,8 @@
 package com.empSystem.jwt;
 
+import com.empSystem.exceptions.TokenNotValidException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,12 +33,17 @@ public class JwtUtils {
     }
 
     public Claims extractAllClaimsFromToken(String token) {
-
-        return Jwts.parserBuilder()
-                .setSigningKey(this.JWT_SECRET_KEY)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(this.JWT_SECRET_KEY)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException ex) {
+            throw new TokenNotValidException(ex.getMessage());
+        } catch (Exception ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> resolver) {

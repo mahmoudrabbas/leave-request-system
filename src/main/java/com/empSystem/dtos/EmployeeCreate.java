@@ -3,7 +3,6 @@ package com.empSystem.dtos;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 public record EmployeeCreate(
         @NotBlank(message = "{name.first.error}")
@@ -18,7 +17,7 @@ public record EmployeeCreate(
         LocalDate hireDate,
         @NotBlank(message = "{position.error}")
         String position,
-        @NotNull(message = "Department Id Is Required")
-        UUID departmentId
+        @NotNull(message = "Department Name Id Is Required")
+        String deptName
 ) {
 }

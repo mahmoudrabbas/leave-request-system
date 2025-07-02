@@ -5,7 +5,6 @@ import com.empSystem.abstracts.EmployeeService;
 import com.empSystem.dtos.AuthResponse;
 import com.empSystem.dtos.LoginRequest;
 import com.empSystem.dtos.SignupRequest;
-import com.empSystem.entities.Employee;
 import com.empSystem.entities.UserAccount;
 import com.empSystem.enums.Role;
 import com.empSystem.exceptions.AlreadyExistsException;
@@ -47,12 +46,10 @@ public class AuthServiceImpl implements AuthService {
 
 
         UserAccount userAccount = new UserAccount();
-        Employee employee = employeeService.getEmployeeById(request.employeeId());
 
         userAccount.setUsername(request.username());
         userAccount.setPassword(passwordEncoder.encode(request.password()));
-        userAccount.setEmployee(employee);
-        userAccount.setRole(Role.ADMIN);
+        userAccount.setRole(Role.USER);
         userAccountRepo.save(userAccount);
 
         AuthResponse authResponse = new AuthResponse();

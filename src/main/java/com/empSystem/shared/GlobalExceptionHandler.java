@@ -1,8 +1,7 @@
 package com.empSystem.shared;
 
-import com.empSystem.exceptions.AlreadyExistsException;
-import com.empSystem.exceptions.BadCredentialsException;
-import com.empSystem.exceptions.NotFoundException;
+import com.empSystem.exceptions.*;
+import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,6 +68,30 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<?> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("message", ex.getLocalizedMessage());
+        var response = new GlobalResponse<>(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MalformedJwtException.class)
+    public ResponseEntity<?> handleMalformedJwt(MalformedJwtException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("message", ex.getLocalizedMessage());
+        var response = new GlobalResponse<>(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TokenNotValidException.class)
+    public ResponseEntity<?> handleTokenNotValid(TokenNotValidException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("message", ex.getLocalizedMessage());
+        var response = new GlobalResponse<>(error, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<?> handleBadRequest(BadRequestException ex) {
         Map<String, String> error = new HashMap<>();
         error.put("message", ex.getLocalizedMessage());
         var response = new GlobalResponse<>(error, HttpStatus.BAD_REQUEST);

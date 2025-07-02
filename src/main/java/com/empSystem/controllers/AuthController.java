@@ -22,7 +22,9 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> signup(@RequestBody @Valid SignupRequest request) {
+        System.out.println("1");
         AuthResponse authResponse = authService.register(request);
+        System.out.println("2");
         return new ResponseEntity<>(new GlobalResponse<>(authResponse, HttpStatus.CREATED), HttpStatus.CREATED);
     }
 

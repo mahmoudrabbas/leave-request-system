@@ -22,8 +22,8 @@ public class UserAccount {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "employee_id", unique = true, nullable = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "employee_id", unique = true)
     private Employee employee;
 
     @Column(name = "role", nullable = false)

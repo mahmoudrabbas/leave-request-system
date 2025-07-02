@@ -18,4 +18,6 @@ public interface DepartmentService {
 
     void deleteOne(UUID id);
 
+    Department findByName(String name);
+
 }

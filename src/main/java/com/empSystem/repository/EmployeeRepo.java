@@ -18,4 +18,7 @@ public interface EmployeeRepo extends JpaRepository<Employee, UUID> {
     @EntityGraph(attributePaths = {"department"})
     List<Employee> findAll();
 
+
+    @EntityGraph(attributePaths = {"department"})
+    List<Employee> findAllByDepartmentId(UUID id);
 }
