@@ -1,6 +1,10 @@
 package com.empSystem.security;
 
+import com.empSystem.entities.LeaveRequest;
 import com.empSystem.entities.UserAccount;
+import com.empSystem.exceptions.BadRequestException;
+import com.empSystem.exceptions.NotFoundException;
+import com.empSystem.repository.LeaveRequestRepo;
 import com.empSystem.repository.UserAccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,21 +20,19 @@ public class SecurityUtils {
     @Autowired
     private UserAccountRepo userAccountRepo;
 
+    @Autowired
+    private LeaveRequestRepo leaveRequestRepo;
+
     public boolean isOwner(UUID id) {
-        System.out.println("Is Owner");
-        System.out.println("id>>>>>>>" + id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) return false;
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Optional<UserAccount> userAccount = userAccountRepo.findByUsername(userDetails.getUsername());
 
-        System.out.println("emp id from authentication" + userAccount.get().getEmployee().getId());
-        System.out.println("true? " + userAccount.map(user -> user.getEmployee().getId().equals(id)).orElse(false));
         return userAccount.map(user -> user.getEmployee().getId().equals(id)).orElse(false);
     }
 
     public boolean isRealUser(UUID id) {
-        System.out.println("Is REal User");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) return false;
 
@@ -41,14 +43,26 @@ public class SecurityUtils {
     }
 
 
-    public boolean isRealUser(String username) {
+    public boolean isLeaveRequestOwner(UUID id) { // leave-request id
+        System.out.println("ID>>>id");
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) return false;
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        Optional<UserAccount> userAccount = userAccountRepo.findByUsername(userDetails.getUsername());
 
-        return userAccount.map(user -> user.getUsername().equals(username)).orElse(false);
+        UserAccount userAccount = userAccountRepo.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new NotFoundException("User Account is not found"));
+
+        if (userAccount.getEmployee() == null) {
+            throw new BadRequestException("Cant get this leave request, because it is not related to any employee");
+        }
+
+        LeaveRequest leaveRequest = leaveRequestRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException("Leave Request is not found"));
+
+        System.out.println("it comes here");
+        return userAccount.getEmployee().getId().equals(leaveRequest.getEmployee().getId());
     }
 
 }

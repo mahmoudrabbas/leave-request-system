@@ -63,4 +63,5 @@ public class EmployeeController {
         employeeService.deleteOne(empId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }

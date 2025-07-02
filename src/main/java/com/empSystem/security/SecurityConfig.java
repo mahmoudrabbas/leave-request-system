@@ -54,7 +54,7 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.GET, "/users/{id}").hasAnyRole("ADMIN", "USER")
                             .requestMatchers(HttpMethod.DELETE, "/users/{id}").hasAnyRole("ADMIN", "USER")
                             .requestMatchers(HttpMethod.GET, "/leave-request").hasAnyRole("ADMIN")
-                            .requestMatchers(HttpMethod.POST, "/leave-request").hasAnyRole("ADMIN", "USER`")
+                            .requestMatchers(HttpMethod.POST, "/leave-request").hasAnyRole("ADMIN", "USER")
                             .requestMatchers(HttpMethod.GET, "/leave-request/{id}").hasAnyRole("ADMIN", "USER")
                             .requestMatchers(HttpMethod.GET, "/leave-request/emp/{id}").hasAnyRole("ADMIN", "USER")
                             .requestMatchers(HttpMethod.DELETE, "/leave-request/{id}").hasAnyRole("ADMIN", "USER")

@@ -2,13 +2,16 @@ package com.empSystem.services;
 
 import com.empSystem.abstracts.EmployeeService;
 import com.empSystem.abstracts.LeaveRequestService;
+import com.empSystem.abstracts.UserAccountService;
 import com.empSystem.dtos.LeaveRequestCreate;
-import com.empSystem.entities.Employee;
+import com.empSystem.dtos.LeaveRequestUpdate;
 import com.empSystem.entities.LeaveRequest;
+import com.empSystem.entities.UserAccount;
 import com.empSystem.enums.RequestStatus;
 import com.empSystem.exceptions.NotFoundException;
 import com.empSystem.repository.LeaveRequestRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +26,9 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private UserAccountService userAccountService;
+
     @Override
     public List<LeaveRequest> getAll() {
         return leaveRequestRepo.findAll();
@@ -35,15 +41,29 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
 
     @Override
     public LeaveRequest createOne(LeaveRequestCreate entity) {
+
         LeaveRequest leaveRequest = new LeaveRequest();
-        Employee employee = employeeService.getEmployeeById(entity.employeeId());
-        leaveRequest.setEmployee(employee);
+
+        UserAccount userAccount = userAccountService.findUserAccountByUsername(SecurityContextHolder.getContext().getAuthentication().getName())
+                .orElseThrow(() -> new NotFoundException("User Account is not found"));
+        // last change here
+        leaveRequest.setEmployee(userAccount.getEmployee());
         leaveRequest.setStartDate(entity.startDate());
         leaveRequest.setEndDate(entity.endDate());
         leaveRequest.setStatus(RequestStatus.PENDING);
         leaveRequest.setReason(entity.reason());
         leaveRequestRepo.save(leaveRequest);
         return leaveRequest;
+    }
+
+    @Override
+    public LeaveRequest updateStatus(UUID id, LeaveRequestUpdate entity) {
+        LeaveRequest leaveRequest = leaveRequestRepo
+                .findById(id).orElseThrow(() -> new NotFoundException("Leave Is Not Found"));
+
+        leaveRequest.setStatus(entity.status().equalsIgnoreCase("ACCEPTED") ? RequestStatus.ACCEPTED : RequestStatus.REJECTED);
+
+        return leaveRequestRepo.save(leaveRequest);
     }
 
     @Override

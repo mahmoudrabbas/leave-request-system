@@ -1,37 +1,38 @@
-================ Department ========================
-GET     => localhost:8080/departments       => ADMIN        [done]
-GET     => localhost:8080/departments/{id}  => ADMIN        [done]
-POST    => localhost:8080/departments       => ADMIN        [done]
-PUT     => localhost:8080/departments       => ADMIN        [done]
-DELETE  => localhost:8080/departments       => ADMIN        [done]
+================ Department ==============================================
+GET     => localhost:8080/departments               => ADMIN        [done]
+GET     => localhost:8080/departments/{id}          => ADMIN        [done]
+POST    => localhost:8080/departments               => ADMIN        [done]
+PUT     => localhost:8080/departments               => ADMIN        [done]
+DELETE  => localhost:8080/departments               => ADMIN        [done]
 
 
-================ Employees ===============================
-GET     => localhost:8080/employees         => ADMIN        [done]
-GET     => localhost:8080/employees/{id}    => ADMIN, USER  [done]
-POST    => localhost:8080/employees         => ADMIN, USER  [done]
-PUT     => localhost:8080/employees         => ADMIN, USER  [done]
-DELETE  => localhost:8080/employees         => ADMIN, USER  [done]
+================ Employees ===============================================
+GET     => localhost:8080/employees                 => ADMIN        [done]
+GET     => localhost:8080/employees/{id}            => ADMIN, USER  [done]
+POST    => localhost:8080/employees                 => ADMIN, USER  [done]
+PUT     => localhost:8080/employees                 => ADMIN, USER  [done]
+DELETE  => localhost:8080/employees                 => ADMIN, USER  [done]
 
 
 
-=====================Auth========================
-POST    => localhost:8080/auth/register => public           [done]
-POST    => localhost:8080/auth/login    => public           [done]
+=====================Auth=================================================
+POST    => localhost:8080/auth/register             => public       [done]
+POST    => localhost:8080/auth/login                => public       [done]
 
 
-================ Users ===================================
-GET     => localhost:8080/users             => ADMIN        [done]
-GET     => localhost:8080/users/{id}        => ADMIN, USER  [done]
-GET     => localhost:8080/users/{username}  => ADMIN, USER  [done]
-DELETE  => localhost:8080/users             => ADMIN, USER  [done]
+================ Users ===================================================
+GET     => localhost:8080/users                     => ADMIN        [done]
+GET     => localhost:8080/users/{id}                => ADMIN, USER  [done]
+GET     => localhost:8080/users/{username}          => ADMIN, USER  [done]
+DELETE  => localhost:8080/users                     => ADMIN, USER  [done]
 
 
-=====================Leave Request============================
-GET     => localhost:8080/leave-request         => ADMIN
-GET     => localhost:8080/leave-request/{id}    => ADMIN, USER
-POST    => localhost:8080/leave-request         => ADMIN, USER
-PUT     => localhost:8080/leave-request         => ADMIN (change the request status if accepted or rejected)
-DELETE  => localhost:8080/leave-request         => ADMIN, USER
+=====================Leave Request========================================
+GET     => localhost:8080/leave-request             => ADMIN        [done]
+GET     => localhost:8080/leave-request/{id}        => ADMIN, USER  [done]
+POST    => localhost:8080/leave-request             => ADMIN, USER  [done]
+PUT     => localhost:8080/leave-request             => ADMIN        [done]    (change the request status if accepted or rejected)
+DELETE  => localhost:8080/leave-request             => ADMIN, USER  [done]
+GET     => localhost:8080/leave-request/emp/{id}    => ADMIN, USER  [done]
 
 

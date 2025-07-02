@@ -1,6 +1,7 @@
 package com.empSystem.abstracts;
 
 import com.empSystem.dtos.LeaveRequestCreate;
+import com.empSystem.dtos.LeaveRequestUpdate;
 import com.empSystem.entities.LeaveRequest;
 
 import java.util.List;
@@ -13,8 +14,12 @@ public interface LeaveRequestService {
 
     LeaveRequest createOne(LeaveRequestCreate entity);
 
+
+    LeaveRequest updateStatus(UUID id, LeaveRequestUpdate entity);
+
     void deleteOne(UUID id);
 
     List<LeaveRequest> getByEmployeeId(UUID id);
+
 
 }
