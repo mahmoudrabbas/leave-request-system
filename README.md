@@ -1,7 +1,7 @@
 # 🏢 Leave Request Management System
 
 A simple HR management system for handling employee leave requests.  
-Employees can submit leave requests, and managers can review, approve, or reject them.
+Employees can submit leave requests, and admin can review, approve, or reject them.
 
 ---
 
