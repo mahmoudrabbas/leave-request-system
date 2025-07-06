@@ -1,7 +1,6 @@
 package com.empSystem.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
@@ -24,9 +23,6 @@ public class Employee {
     @NotBlank(message = "{name.last.error}")
     @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
-    @Email(message = "{email.error}")
-    @Column(name = "email", unique = true, nullable = false, length = 100)
-    private String email;
     @Pattern(regexp = "^01[0125][0-9]{8}$", message = "{phone.number.error}")
     @Column(name = "phone_number", nullable = false, unique = true, length = 100)
     private String phoneNumber;
@@ -37,6 +33,12 @@ public class Employee {
     @Column(name = "position", nullable = false, length = 100)
     private String position;
 
+    @Column(name = "verified", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean isVerified;
+
+    @Column(name = "account_creation_token")
+    private String accountCreationToken;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "department_id")
     private Department department;
@@ -44,11 +46,10 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(UUID id, String firstName, String lastName, String email, String phoneNumber, LocalDate hireDate, String position, Department department) {
+    public Employee(UUID id, String firstName, String lastName, String phoneNumber, LocalDate hireDate, String position, Department department) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
         this.phoneNumber = phoneNumber;
         this.hireDate = hireDate;
         this.position = position;
@@ -80,13 +81,6 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -118,5 +112,21 @@ public class Employee {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
+
+    public String getAccountCreationToken() {
+        return accountCreationToken;
+    }
+
+    public void setAccountCreationToken(String accountCreationToken) {
+        this.accountCreationToken = accountCreationToken;
     }
 }

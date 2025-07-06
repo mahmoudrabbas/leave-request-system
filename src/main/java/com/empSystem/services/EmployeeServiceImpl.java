@@ -81,7 +81,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employee.setFirstName(entity.firstName());
         employee.setLastName(entity.lastName());
-        employee.setEmail(entity.email());
         employee.setPosition(entity.position());
         employee.setHireDate(entity.hireDate());
         employee.setPhoneNumber(entity.phoneNumber());

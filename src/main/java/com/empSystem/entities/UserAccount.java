@@ -2,6 +2,7 @@ package com.empSystem.entities;
 
 import com.empSystem.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -21,6 +22,10 @@ public class UserAccount {
     @NotNull(message = "{password.required}")
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Email(message = "{email.error}")
+    @Column(name = "email", unique = true, nullable = false, length = 100)
+    private String email;
 
     @OneToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "employee_id", unique = true)
@@ -71,5 +76,13 @@ public class UserAccount {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

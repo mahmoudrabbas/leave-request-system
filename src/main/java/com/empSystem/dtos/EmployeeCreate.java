@@ -1,6 +1,9 @@
 package com.empSystem.dtos;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDate;
 
@@ -9,8 +12,6 @@ public record EmployeeCreate(
         String firstName,
         @NotBlank(message = "{name.last.error}")
         String lastName,
-        @Email(message = "{email.error}")
-        String email,
         @Pattern(regexp = "^01[0125][0-9]{8}$", message = "{phone.number.error}")
         String phoneNumber,
         @PastOrPresent(message = "{hire.date.error}")

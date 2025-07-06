@@ -35,7 +35,7 @@ public class EmployeeServiceTest {
     @Test
     public void testGetEmployeeById() {
         Employee employee = new Employee(UUID.fromString(UUID_),
-                "Mahmoud", "Abbas", "mr@gmail.com", "01024348948",
+                "Mahmoud", "Abbas", "01024348948",
                 LocalDate.of(2025, 5, 5), "Software Engineer",
                 new Department(UUID.fromString(UUID_), "IT"));
 
@@ -65,11 +65,11 @@ public class EmployeeServiceTest {
     public void testGetAllEmployees() {
 
         List<Employee> employees = List.of(
-                new Employee(UUID.fromString(UUID_), "Mahmoud", "Abbas", "mr@gmail.com", "01012345677",
+                new Employee(UUID.fromString(UUID_), "Mahmoud", "Abbas", "01012345677",
                         LocalDate.of(2025, 5, 5), "Software Engineer", new Department(UUID.fromString(UUID_), "IT")),
-                new Employee(UUID.fromString(UUID_), "Ali", "Mohamed", "am@gmail.com", "01023456789",
+                new Employee(UUID.fromString(UUID_), "Ali", "Mohamed", "01023456789",
                         LocalDate.of(2025, 5, 6), "Sales Man", new Department(UUID.fromString(UUID_), "IT")),
-                new Employee(UUID.fromString(UUID_), "Mostafa", "Hishmat", "mh@gmail.com", "01023456788",
+                new Employee(UUID.fromString(UUID_), "Mostafa", "Hishmat", "01023456788",
                         LocalDate.of(2025, 5, 7), "Recruiter", new Department(UUID.fromString(UUID_), "Hr"))
         );
 
@@ -78,7 +78,6 @@ public class EmployeeServiceTest {
         List<Employee> res = employeeService.getAll();
         Assertions.assertEquals(3, res.size());
         Assertions.assertEquals("Mahmoud", res.get(0).getFirstName());
-        Assertions.assertEquals("mr@gmail.com", res.get(0).getEmail());
     }
 
 

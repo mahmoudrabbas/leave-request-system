@@ -51,6 +51,8 @@ Employees can submit leave requests, and admin can review, approve, or reject th
 
 - POST => localhost:8080/auth/register => public       [done]
 - POST => localhost:8080/auth/login => public       [done]
+- POST => localhost:8080/auth/forget-password => public       [done]
+- POST => localhost:8080/auth/reset-password/{token} => public       [done]
 
 ================ Users ==================================
 
